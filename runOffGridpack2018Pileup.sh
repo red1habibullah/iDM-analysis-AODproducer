@@ -18,7 +18,7 @@
 
 nevent=1000
 
-SAMPLELHE="/store/group/lpcmetx/iDM/LHE/2018/signal/iDM_Mchi-60p0_dMchi-20p0.lhe"
+SAMPLELHE="/store/group/lpcmetx/iDM/LHE/2018/signal/iDM_Mchi-5p25_dMchi-0p5.lhe"
 
 HADRONIZER="externalLHEProducer_and_PYTHIA8_Hadronizer"
 export BASEDIR=`pwd`
@@ -61,7 +61,6 @@ do
     echo "1.) Generating GEN-SIM for lifetime ${ctau_mm}"
     genfragment=${namebase}_GENSIM_cfg_ctau-${ctau_mm}.py
     cmsDriver.py Configuration/GenProduction/python/${HADRONIZER}_ctau-${ctau_mm}.py \
-        #--filein [$all_files] \
         --filein $SAMPLELHE \
         --filetype LHE \
         --fileout file:${namebase}_GENSIM_ctau-${ctau_mm}.root \
@@ -71,6 +70,8 @@ do
         --customise Configuration/DataProcessing/Utils.addMonitoring \
         --python_filename ${genfragment} --no_exec -n ${nevent}
 
+    # this block is to load all files, and then replace '[ with [' in the filelist
+    #--filein [$all_files] \
     #sed -i -e "s/'\[/\['/" ${genfragment}
     #sed -i -e "s/\]'/'\]/" ${genfragment}
 
