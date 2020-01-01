@@ -16,18 +16,18 @@ eos root://cmseos.fnal.gov mkdir /store/group/lpcmetx/iDM/AOD/$basedir/Mchi-${mc
 eos root://cmseos.fnal.gov mkdir /store/group/lpcmetx/iDM/AOD/$basedir/Mchi-${mchi}_dMchi-${dmchi}_ctau-100
 eos root://cmseos.fnal.gov mkdir /store/group/lpcmetx/iDM/AOD/$basedir/Mchi-${mchi}_dMchi-${dmchi}_ctau-1000
 
-for file in `eos root://cmseos.fnal.gov ls /store/user/as2872/iDM/Samples`; do
+for file in `eos root://cmseos.fnal.gov ls /store/group/lpcmetx/iDM/Samples`; do
 
     echo "Moving file $file ..."
 
     if [[ $file == *"Mchi-$mchi"*"ctau-1."* ]]; then
-        eos root://cmseos.fnal.gov mv /store/user/as2872/iDM/Samples/$file /store/group/lpcmetx/iDM/AOD/$basedir/Mchi-${mchi}_dMchi-${dmchi}_ctau-1/$file
+        eos root://cmseos.fnal.gov mv /store/group/lpcmetx/iDM/Samples/$file /store/group/lpcmetx/iDM/AOD/$basedir/Mchi-${mchi}_dMchi-${dmchi}_ctau-1/$file
     elif [[ $file == *"Mchi-$mchi"*"ctau-10."* ]]; then
-        eos root://cmseos.fnal.gov mv /store/user/as2872/iDM/Samples/$file /store/group/lpcmetx/iDM/AOD/$basedir/Mchi-${mchi}_dMchi-${dmchi}_ctau-10/$file
+        eos root://cmseos.fnal.gov mv /store/group/lpcmetx/iDM/Samples/$file /store/group/lpcmetx/iDM/AOD/$basedir/Mchi-${mchi}_dMchi-${dmchi}_ctau-10/$file
     elif [[ $file == *"Mchi-$mchi"*"ctau-100."* ]]; then
-        eos root://cmseos.fnal.gov mv /store/user/as2872/iDM/Samples/$file /store/group/lpcmetx/iDM/AOD/$basedir/Mchi-${mchi}_dMchi-${dmchi}_ctau-100/$file
+        eos root://cmseos.fnal.gov mv /store/group/lpcmetx/iDM/Samples/$file /store/group/lpcmetx/iDM/AOD/$basedir/Mchi-${mchi}_dMchi-${dmchi}_ctau-100/$file
     elif [[ $file == *"Mchi-$mchi"*"ctau-1000."* ]]; then
-        eos root://cmseos.fnal.gov mv /store/user/as2872/iDM/Samples/$file /store/group/lpcmetx/iDM/AOD/$basedir/Mchi-${mchi}_dMchi-${dmchi}_ctau-1000/$file
+        eos root://cmseos.fnal.gov mv /store/group/lpcmetx/iDM/Samples/$file /store/group/lpcmetx/iDM/AOD/$basedir/Mchi-${mchi}_dMchi-${dmchi}_ctau-1000/$file
     fi
 
 done
