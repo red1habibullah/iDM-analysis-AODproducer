@@ -97,10 +97,10 @@ do
     # So just replace template with correct filenames and number of events
     echo "2.) Generating DIGI-RAW-HLT for lifetime ${ctau_mm}"
     cp ${BASEDIR}/DIGIRAWHLT_template.py .
-    sed -i "s/file:placeholder_in.root/file:${namebase}_GENSIM_ctau-${ctau_mm}.root/g" DIGIRAWHLT_template.py
-    sed -i "s/file:placeholder_out.root/file:${namebase}_DIGIRAWHLT_ctau-${ctau_mm}.root/g" DIGIRAWHLT_template.py
-    sed -i "s/input = cms.untracked.int32(10)/input = cms.untracked.int32(${nevent})/g" DIGIRAWHLT_template.py
-    mv DIGIRAWHLT_template.py ${namebase}_DIGIRAWHLT_cfg_ctau-${ctau_mm}.py
+    sed -i "s/file:placeholder_in.root/file:${namebase}_GENSIM_ctau-${ctau_mm}.root/g" DIGIRAWHLT_template_2018.py
+    sed -i "s/file:placeholder_out.root/file:${namebase}_DIGIRAWHLT_ctau-${ctau_mm}.root/g" DIGIRAWHLT_template_2018.py
+    sed -i "s/input = cms.untracked.int32(10)/input = cms.untracked.int32(${nevent})/g" DIGIRAWHLT_template_2018.py
+    mv DIGIRAWHLT_template_2018.py ${namebase}_DIGIRAWHLT_cfg_ctau-${ctau_mm}.py
 
     #echo "2.) Generating DIGI-RAW-HLT for lifetime ${ctau_mm}"
     #cmsDriver.py step1 \
@@ -122,7 +122,7 @@ do
     echo "3.) Generating AOD for lifetime ${ctau_mm}"
     cmsDriver.py step2 \
         --filein file:${namebase}_DIGIRAWHLT_ctau-${ctau_mm}.root \
-        --fileout file:${namebase}_AOD_ctau-${ctau_mm}.root \
+        --fileout file:${namebase}_AOD_ctau-${ctau_mm}_year-2018.root \
         --mc --eventcontent AODSIM --datatier AODSIM --runUnscheduled \
         --conditions 102X_upgrade2018_realistic_v15 --step RAW2DIGI,L1Reco,RECO,RECOSIM,EI \
         --procModifiers premix_stage2 \

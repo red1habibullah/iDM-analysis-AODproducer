@@ -121,7 +121,7 @@ do
     echo "3.) Generating AOD for lifetime ${ctau_mm}"
     cmsDriver.py step2 \
         --filein file:${namebase}_DIGIRAWHLT_ctau-${ctau_mm}.root \
-        --fileout file:${namebase}_AOD_ctau-${ctau_mm}.root \
+        --fileout file:${namebase}_AOD_ctau-${ctau_mm}_year-2017.root \
         --mc --eventcontent AODSIM --datatier AODSIM --runUnscheduled \
         --conditions 94X_mc2017_realistic_v11 --step RAW2DIGI,L1Reco,RECO,RECOSIM,EI \
         --nThreads 1 --era Run2_2017 --python_filename ${namebase}_AOD_cfg_ctau-${ctau_mm}.py --no_exec \

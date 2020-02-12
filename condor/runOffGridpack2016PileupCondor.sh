@@ -152,7 +152,7 @@ do
     echo "3.) Generating AOD for lifetime ${ctau_mm}"
     cmsDriver.py step2 \
         --filein file:${namebase}_DIGIRAWHLT_ctau-${ctau_mm}.root \
-        --fileout file:${namebase}_AOD_ctau-${ctau_mm}.root \
+        --fileout file:${namebase}_AOD_ctau-${ctau_mm}_year-2016.root \
         --mc --eventcontent AODSIM --datatier AODSIM --runUnscheduled \
         --conditions 80X_mcRun2_asymptotic_2016_TrancheIV_v8 --step RAW2DIGI,L1Reco,RECO,EI \
         --nThreads 2 --era Run2_2016 --python_filename ${namebase}_AOD_cfg_ctau-${ctau_mm}.py --no_exec \
