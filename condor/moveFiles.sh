@@ -20,13 +20,13 @@ for file in `eos root://cmseos.fnal.gov ls /store/group/lpcmetx/iDM/Samples`; do
 
     echo "Moving file $file ..."
 
-    if [[ $file == *"Mchi-$mchi"*"ctau-1."* ]]; then
+    if [[ $file == *"Mchi-$mchi"*"ctau-1."*"year-$year"* ]]; then
         eos root://cmseos.fnal.gov mv /store/group/lpcmetx/iDM/Samples/$file /store/group/lpcmetx/iDM/AOD/$basedir/Mchi-${mchi}_dMchi-${dmchi}_ctau-1/$file
-    elif [[ $file == *"Mchi-$mchi"*"ctau-10."* ]]; then
+    elif [[ $file == *"Mchi-$mchi"*"ctau-10."*"year-$year"* ]]; then
         eos root://cmseos.fnal.gov mv /store/group/lpcmetx/iDM/Samples/$file /store/group/lpcmetx/iDM/AOD/$basedir/Mchi-${mchi}_dMchi-${dmchi}_ctau-10/$file
-    elif [[ $file == *"Mchi-$mchi"*"ctau-100."* ]]; then
+    elif [[ $file == *"Mchi-$mchi"*"ctau-100."*"year-$year"* ]]; then
         eos root://cmseos.fnal.gov mv /store/group/lpcmetx/iDM/Samples/$file /store/group/lpcmetx/iDM/AOD/$basedir/Mchi-${mchi}_dMchi-${dmchi}_ctau-100/$file
-    elif [[ $file == *"Mchi-$mchi"*"ctau-1000."* ]]; then
+    elif [[ $file == *"Mchi-$mchi"*"ctau-1000."*"year-$year"* ]]; then
         eos root://cmseos.fnal.gov mv /store/group/lpcmetx/iDM/Samples/$file /store/group/lpcmetx/iDM/AOD/$basedir/Mchi-${mchi}_dMchi-${dmchi}_ctau-1000/$file
     fi
 
