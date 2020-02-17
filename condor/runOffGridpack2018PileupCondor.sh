@@ -96,7 +96,7 @@ do
     # Step1 is pre-computed, since it takes a while to load all pileup pre-mixed samples
     # So just replace template with correct filenames and number of events
     echo "2.) Generating DIGI-RAW-HLT for lifetime ${ctau_mm}"
-    cp ${BASEDIR}/DIGIRAWHLT_template.py .
+    cp ${BASEDIR}/DIGIRAWHLT_template_2018.py .
     sed -i "s/file:placeholder_in.root/file:${namebase}_GENSIM_ctau-${ctau_mm}.root/g" DIGIRAWHLT_template_2018.py
     sed -i "s/file:placeholder_out.root/file:${namebase}_DIGIRAWHLT_ctau-${ctau_mm}.root/g" DIGIRAWHLT_template_2018.py
     sed -i "s/input = cms.untracked.int32(10)/input = cms.untracked.int32(${nevent})/g" DIGIRAWHLT_template_2018.py
