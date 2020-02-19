@@ -112,27 +112,29 @@ queue {2}'''.format(workpath, logpath, njobs)
 
 if __name__ == "__main__":
 
+    if len(sys.argv) < 3:
+        print "ERROR! Need at least 2 arguments!"
+        print "Usage: ./submitPileup.py <LHE/gridpack filename> year [njobs]"
+        sys.exit()
+    elif sys.argv[2] not in ['2016', '2017', '2018']: 
+        print "ERROR! Year (2016/17/18) is a mandatory argument!"
+        print "Usage: ./submitPileup.py <LHE/gridpack filename> year [njobs]"
+        sys.exit()
+
     inf = sys.argv[1]
     Mode = 'lhe' if 'lhe' in inf else 'gridpack'
     Process = inf.split('/')[-1].split('.')[0]
     print Process
 
-    if len(sys.argv) < 3:
-        print "ERROR! Need at least 2 arguments!"
-        print "Usage: ./submit.py <LHE/gridpack filename> year [njobs]"
-        sys.exit()
-    elif sys.argv[2] not in ['2016', '2017', '2018']: 
-        print "ERROR! Year (2016/17/18) is a mandatory argument!"
-        print "Usage: ./submit.py <LHE/gridpack filename> year [njobs]"
-        sys.exit()
-        
     year = sys.argv[2]
 
     Njobs = 1 if len(sys.argv) < 4 else sys.argv[3]
 
     Logpath = os.getcwd() + '/Logs'
+    Submissionpath = os.getcwd() + '/submissions'
     if not os.path.isdir(Logpath): os.mkdir(Logpath)
-    Workpath = os.getcwd() + '/submissions' + '/submit_' + Process
+    if not os.path.isdir(Submissionpath): os.mkdir(Submissionpath)
+    Workpath = Submissionpath + '/submit_' + Process
     if os.path.isdir(Workpath): os.system('rm -rf %s' % Workpath)
     os.mkdir(Workpath)
     Uid = os.getuid()
