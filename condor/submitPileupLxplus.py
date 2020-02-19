@@ -135,7 +135,9 @@ if __name__ == "__main__":
 
     Logpath = os.getcwd() + '/Logs'
     if not os.path.isdir(Logpath): os.mkdir(Logpath)
-    Workpath = os.getcwd() + '/submissions' + '/submit_' + Process
+    Submissionpath = os.getcwd() + '/submissions'
+    if not os.path.isdir(Submissionpath): os.mkdir(Submissionpath)
+    Workpath = Submissionpath + '/submit_' + Process
     if os.path.isdir(Workpath): os.system('rm -rf %s' % Workpath)
     os.mkdir(Workpath)
     Uid = os.getuid()
