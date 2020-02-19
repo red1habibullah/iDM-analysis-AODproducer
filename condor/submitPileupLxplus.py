@@ -30,7 +30,7 @@ done'''
             os.system('cp gridpacks/Production/%s %s/submit/gridpacks' % (infile, workpath))
             os.system('cp runOffGridpack%sPileupCondorLxplus.sh %s/submit' % (year,workpath))
             os.system('cp DIGIRAWHLT_template_%s.py %s/submit' % (year,workpath))
-            with open('%s/submit/runOffGridpack%sPileupCondor.sh' % (workpath,year), 'a') as f:
+            with open('%s/submit/runOffGridpack%sPileupCondorLxplus.sh' % (workpath,year), 'a') as f:
                 f.write(stageOutPiece)
     except:
         print "%s probably does not exist." % infile
@@ -78,7 +78,7 @@ exit 0'''
         if mode == 'lhe':
             f.write(execF % ('runOffLHE', infile+' '+ctau))
         else:
-            f.write(execF % (('runOffGridpack%sPileupCondor' % year), infile+' '+ctau))
+            f.write(execF % (('runOffGridpack%sPileupCondorLxplus' % year), infile+' '+ctau))
 
 
 
