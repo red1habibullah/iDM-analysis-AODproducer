@@ -96,7 +96,7 @@ output = {1}/$(Cluster)_$(Process).out
 error = {1}/$(Cluster)_$(Process).err
 log = {1}/$(Cluster)_$(Process).log
 rank = Mips
-request_memory = 8000
+request_memory = 4000
 arguments = $(Process)
 #on_exit_hold = (ExitBySignal == True) || (ExitCode != 0)
 +AcctGroup = "analysis"
