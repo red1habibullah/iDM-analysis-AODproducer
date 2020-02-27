@@ -115,11 +115,6 @@ queue {2}'''.format(workpath, logpath, njobs)
 
 if __name__ == "__main__":
 
-    inf = sys.argv[1]
-    Mode = 'lhe' if 'lhe' in inf else 'gridpack'
-    Process = inf.split('/')[-1].split('.')[0]
-    print Process
-
     if len(sys.argv) < 3:
         print "ERROR! Need at least 2 arguments!"
         print "Usage: ./submit.py <LHE/gridpack filename> year [njobs]"
@@ -128,6 +123,11 @@ if __name__ == "__main__":
         print "ERROR! Year (2016/17/18) is a mandatory argument!"
         print "Usage: ./submit.py <LHE/gridpack filename> year [njobs]"
         sys.exit()
+
+    inf = sys.argv[1]
+    Mode = 'lhe' if 'lhe' in inf else 'gridpack'
+    Process = inf.split('/')[-1].split('.')[0]
+    print Process
         
     year = sys.argv[2]
 
