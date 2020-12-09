@@ -6,15 +6,15 @@ import getpass
 '''Usage: ./submit.py <LHE/gridpack filename> year [njobs]
 '''
 
-def buildSubmit(infile, workpath, mode, uid, user, year):
+def buildSubmit(infile, workpath, mode, uid, user, year, mass):
     '''A series of actions to prepare submit dir'''
 
     stageOutPiece = '''
-remoteDIR="/eos/home-s/shigginb/HAA_ntuples/Signal2017"
+remoteDIR="/eos/user/s/shigginb/HAA_ntuples/ggha01a01Tomumutautau_2017_%s"
 for f in `ls *AOD*.root`; do
-    cmd="xrdcp -vf file:///$PWD/$f root://eosuser.cern.ch/$remoteDIR/$f"
+    cmd="xrdcp -vf $f root://eosuser.cern.ch/$remoteDIR/$f"
     echo $cmd && eval $cmd
-done'''
+done'''% mass
 
     os.makedirs(workpath+'/submit/conf')
     os.system('cp conf/* %s/submit/conf/' % workpath)
@@ -30,8 +30,9 @@ done'''
             os.makedirs(workpath+'/submit/gridpacks')
             os.system('cp gridpacks/Production/%s %s/submit/gridpacks' % (infile, workpath))
             #os.system('cp replaceLHELifetime.py %s/submit' % workpath)
-            os.system('cp runOffGridpack%sHAACondorLxplus.sh %s/submit' % (year,workpath))
-            with open('%s/submit/runOffGridpack%sHAACondorLxplus.sh' % (workpath,year), 'a') as f:
+
+            os.system('cp  runGridpack%sHAA_%s_CondorLxplus.sh %s/submit' % (year,mass,workpath))
+            with open('%s/submit/runGridpack%sHAA_%s_CondorLxplus.sh' % (workpath,year,mass), 'a') as f:
                 f.write(stageOutPiece)
     except:
         print "%s probably not exist." % infile
@@ -50,7 +51,7 @@ done'''
 
 
 
-def buildExec(infile, workpath, mode, year):
+def buildExec(infile, workpath, cert, mode, year, mass):
     '''Given the workpath, write a exec.sh in it, to be used by condor'''
 
     execF = '''#!/bin/bash
@@ -59,7 +60,7 @@ export HOME=${PWD}
 
 tar xvaf submit.tgz
 cd submit
-sh %s.sh %s
+sh %s.sh %s %s
 cd ${HOME}
 rm -r submit/
 
@@ -68,20 +69,20 @@ exit 0'''
         # Deduce decay length [mm] from gridpack name..
         # e.g. SIDMmumu_Mps-200_MZp-1p2_ctau-0p1.tar.xz
         # e.g. SIDMmumu_Mps-202_MZp-1p2_ctau-0p01.lhe.gz
-        ctau = '0'
-        if 'iDM' in infile:
-            nameTags = infile.split('.')[0].split('_')
-            for t in nameTags:
-                if 'ctau' in t:
-                    ctau = t.split('-', 1)[-1]
-                    ctau = str( float(ctau.replace('p','.')))# [ANDRE]in mm already *10 )
+        #ctau = '0'
+        #if 'iDM' in infile:
+        #    nameTags = infile.split('.')[0].split('_')
+        #    for t in nameTags:
+        #        if 'ctau' in t:
+        #            ctau = t.split('-', 1)[-1]
+        #            ctau = str( float(ctau.replace('p','.')))# [ANDRE]in mm already *10 )
 
         if mode == 'lhe':
             f.write(execF % ('runOffLHE', infile+' '+ctau))
         else:
-            f.write(execF % (('runOffGridpack%s' % year), infile+' '+ctau))
+            f.write(execF % (('runGridpack%sHAA_%s_CondorLxplus' % (year,mass)), cert, infile))
 
-
+#
 
 def buildCondor(process, workpath, logpath, uid, user, njobs=1):
     '''build the condor file, return the abs path'''
@@ -98,14 +99,18 @@ error = {1}/$(Cluster)_$(Process).err
 log = {1}/$(Cluster)_$(Process).log
 rank = Mips
 request_memory = 8000
-arguments = $(Process)
+arguments = $(Proxy_path) $(Process)
 #on_exit_hold = (ExitBySignal == True) || (ExitCode != 0)
 #notify_user = {2}@cern.ch
+Proxy_path = /afs/cern.ch/user/s/shigginb/private/x509up
 +AccountingGroup = "analysis.{2}"
-+AcctGroup = "analysis"
++AcctGroup = "analysis  "
 +ProjectName = "HiggsExoticSimulation"
++JobFlavour = "tomorrow"
 queue {3}'''.format(workpath, logpath, user, njobs)
     condorFN = 'condor_%s.jdl' % process
+#stream_error = True #only place these in for debugging purposes!
+#stream_output = True
 
     with open(logpath + '/' + condorFN, 'w') as jdlfile:
         jdlfile.write(condorF)
@@ -130,8 +135,11 @@ if __name__ == "__main__":
         sys.exit()
 
     year = sys.argv[2]
+    mass = sys.argv[4]
 
     Njobs = 1 if len(sys.argv) < 4 else sys.argv[3]
+    print "submitting ",Njobs,"  jobs"
+    print "a mass ",mass
 
     Logpath = os.getcwd() + '/Logs'
     if not os.path.isdir(Logpath): os.mkdir(Logpath)
@@ -140,9 +148,9 @@ if __name__ == "__main__":
     os.mkdir(Workpath)
     Uid = os.getuid()
     User = getpass.getuser()
-
-    buildSubmit(infile=inf, workpath=Workpath, mode=Mode, uid=Uid, user=User, year=year)
-    buildExec(infile=inf, workpath=Workpath, mode=Mode, year=year)
+    Cert = '/afs/cern.ch/user/s/shigginb/private/x509up'
+    buildSubmit(infile=inf, workpath=Workpath, mode=Mode, uid=Uid, user=User, year=year, mass=mass)
+    buildExec(infile=inf, workpath=Workpath,cert=Cert, mode=Mode, year=year, mass=mass)
     theCondor = buildCondor(process=Process, workpath=Workpath,
             logpath=Logpath, uid=Uid, user=User, njobs=Njobs)
     os.system('condor_submit %s' % theCondor)
