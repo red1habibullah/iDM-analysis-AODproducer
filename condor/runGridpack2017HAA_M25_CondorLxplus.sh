@@ -144,7 +144,7 @@ eval `scram runtime -sh`
 cmsDriver.py   --filein file:${namebase}_${amass}_miniAOD.root --fileout file:${namebase}_${amass}_nanoAOD.root \
 --eventcontent NANOAODSIM \
 --customise Configuration/DataProcessing/Utils.addMonitoring --datatier NANOAODSIM \
---conditions 102X_mcRun2_asymptotic_v8 --step NANO  --era Run2_2017,run2_miniAOD_94XFall17 \
+--conditions 102X_mc2017_realistic_v8 --step NANO  --era Run2_2017,run2_nanoAOD_94XMiniAODv2 \
 --no_exec --mc \
 --python_filename ${namebase}_${amass}_nanoAOD_cfg.py -n ${nevent} || exit $?;
 cmsRun -p ${namebase}_${amass}_nanoAOD_cfg.py

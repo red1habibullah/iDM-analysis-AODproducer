@@ -16,8 +16,13 @@
 
 ## Usage: ./runOffGridpack.sh gridpack_file.tar.xz
 
+#For lxplus
+export X509_USER_PROXY=$1
+voms-proxy-info -all
+voms-proxy-info -all -file $1
+
 export BASEDIR=`pwd`
-GP_f=$1
+GP_f=$2
 GRIDPACKDIR=${BASEDIR}/gridpacks
 LHEDIR=${BASEDIR}/mylhes
 SAMPLEDIR=${BASEDIR}/samples
@@ -26,7 +31,7 @@ SAMPLEDIR=${BASEDIR}/samples
 HADRONIZER="externalLHEProducer_and_PYTHIA8_Hadronizer"
 namebase=${GP_f/.tar.xz/}
 #nevent=500
-nevent=50
+nevent=500
 amass=40
 
 export VO_CMS_SW_DIR=/cvmfs/cms.cern.ch
@@ -46,7 +51,7 @@ sed -i 's///g' process/madevent/Cards/run_card.dat
 ls -lrth
 
 RANDOMSEED=`od -vAn -N4 -tu4 < /dev/urandom`
-Sometimes the RANDOMSEED is too long for madgraph
+#Sometimes the RANDOMSEED is too long for madgraph
 RANDOMSEED=`echo $RANDOMSEED | rev | cut -c 3- | rev`
 
 echo "0.) Generating LHE"
@@ -128,7 +133,9 @@ cmsRun -p ${namebase}_${amass}_miniAOD_cfg.py
 echo "5.) Generating NANOAOD in new CMSSW"
 cd ../../.
 
-export SCRAM_ARCH=slc7_amd64_gcc820
+#export SCRAM_ARCH=slc7_amd64_gcc820
+#not written because of wierd char
+export SCRAM_ARCH=slc7_amd64_gcc700
 if ! [ -r CMSSW_10_2_16_UL/src ] ; then
     scram p CMSSW CMSSW_10_2_16_UL
 fi

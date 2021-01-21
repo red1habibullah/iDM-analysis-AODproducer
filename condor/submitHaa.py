@@ -94,8 +94,6 @@ when_to_transfer_output = ON_EXIT
 transfer_input_files = {0}/submit.tgz
 transfer_output_files = ""
 input = /dev/null
-output = {1}/$(Cluster)_$(Process).out
-error = {1}/$(Cluster)_$(Process).err
 log = {1}/$(Cluster)_$(Process).log
 rank = Mips
 request_memory = 8000
@@ -109,6 +107,8 @@ Proxy_path = /afs/cern.ch/user/s/shigginb/private/x509up
 +JobFlavour = "tomorrow"
 queue {3}'''.format(workpath, logpath, user, njobs)
     condorFN = 'condor_%s.jdl' % process
+#output = {1}/$(Cluster)_$(Process).out
+#error = {1}/$(Cluster)_$(Process).err
 #stream_error = True #only place these in for debugging purposes!
 #stream_output = True
 
