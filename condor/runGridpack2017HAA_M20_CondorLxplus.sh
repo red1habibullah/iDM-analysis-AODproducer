@@ -134,11 +134,11 @@ echo "5.) Generating NANOAOD in new CMSSW"
 cd ../../.
 
 export SCRAM_ARCH=slc7_amd64_gcc820
-if ! [ -r CMSSW_10_2_16_UL/src ] ; then
-    scram p CMSSW CMSSW_10_2_16_UL
+if ! [ -r CMSSW_10_2_22/src ] ; then
+    scram p CMSSW CMSSW_10_2_22
 fi
-mv CMSSW_9_4_9/src/${namebase}_${amass}_miniAOD.root CMSSW_10_2_16_UL/src/.
-cd CMSSW_10_2_16_UL/src
+mv CMSSW_9_4_9/src/${namebase}_${amass}_miniAOD.root CMSSW_10_2_22/src/.
+cd CMSSW_10_2_22/src
 eval `scram runtime -sh`
 
 cmsDriver.py   --filein file:${namebase}_${amass}_miniAOD.root --fileout file:${namebase}_${amass}_nanoAOD.root \

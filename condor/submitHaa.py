@@ -10,7 +10,7 @@ def buildSubmit(infile, workpath, mode, uid, user, year, mass):
     '''A series of actions to prepare submit dir'''
 
     stageOutPiece = '''
-remoteDIR="/eos/user/s/shigginb/HAA_ntuples/ggha01a01Tomumutautau_2017_%s"
+remoteDIR="/eos/user/s/shigginb/HAA_ntuples/ggha01a01Tomumutautau_2017_dtau_%s"
 for f in `ls *AOD*.root`; do
     cmd="xrdcp -vf $f root://eosuser.cern.ch/$remoteDIR/$f"
     echo $cmd && eval $cmd
